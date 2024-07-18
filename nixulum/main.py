@@ -32,7 +32,7 @@ def rainbow_text(text):
     for char in text:
         result += next(color_cycle) + char
     return result
-#hello this is update test
+
 clear_screen()
 def change_theme():
     colors = {
