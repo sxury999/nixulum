@@ -23,7 +23,7 @@ def update_title(text):
 
 # Function to install dependencies
 def install_dependencies():
-    update_title('Helium - Installing dependencies')
+    update_title('Test - Installing dependencies')
     total_dependencies = len(imports)
     
     for i, _import in enumerate(imports, start=1):
