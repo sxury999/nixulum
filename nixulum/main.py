@@ -99,7 +99,7 @@ theme changer «!» update «+»
 ┃ «02» info  «07» blank «12» blank «17» blank «22» blank           ┃ 
 ┃ «03» nuker «08» blank «13» blank «18» blank «23» blank           ┃                         
 ┃ «04» blank «09» blank «14» blank «19» blank «24» blank           ┃
-┃ «05» blank «10» blank «15» blank «20» blank «25» blankk          ┃
+┃ «05» blank «10» blank «15» blank «20» blank «25» blank           ┃
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛"""
     
     if current_color == 'rainbow':
