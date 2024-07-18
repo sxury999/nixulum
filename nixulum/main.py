@@ -19,8 +19,8 @@ def open_info_py():
 
 def open_nuker_py():
     os.system(sys.executable + " " + os.path.join(UTIL_FOLDER, "nuker.py"))
-def open_updater_py():
-    os.system(sys.executable + " " + os.path.join(UTIL_FOLDER, "updater.py"))
+def open_up_py():
+    os.system(sys.executable + " " + os.path.join(UTIL_FOLDER, "up.py"))
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -125,8 +125,8 @@ def main_menu():
         elif choice == '!':
             current_color = change_theme()
             continue 
-        elif choice == '!':
-           open_updater_py()
+        elif choice == '+':
+           open_up_py()
         # Return to the menu after changing the theme
         # Handle other choices if needed...
 
