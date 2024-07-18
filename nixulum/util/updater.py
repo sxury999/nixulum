@@ -15,7 +15,7 @@ def fetch_github_code(repo_url, save_path):
         print(f"An error occurred: {e}")
 
 # Example usage:
-github_repo_url = 'https://raw.githubusercontent.com/sxury999/FREE-VERSION-GDK-NUKER/main/free-version-of-gdk-nuker-main/main.py'
+github_repo_url = 'https://raw.githubusercontent.com/sxury999/nixulum/main/nixulum/main.py'
 local_save_path = 'main.py'
 
 fetch_github_code(github_repo_url, local_save_path)
