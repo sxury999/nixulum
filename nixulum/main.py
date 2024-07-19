@@ -1,8 +1,8 @@
 import os
 import json
 import sys
-import itertools
-from colorama import init, Fore, Back, Style
+from colorama import init, Fore
+from pystyle import Colors, Colorate, Center
 
 # Initialize colorama for colored terminal output
 init(autoreset=True)
@@ -42,50 +42,14 @@ def install_dependencies():
     clear_screen()
     return True
 
-# Function to generate rainbow text
-def rainbow_text(text):
-    colors = [Fore.RED, Fore.YELLOW, Fore.GREEN, Fore.CYAN, Fore.BLUE, Fore.MAGENTA, Fore.WHITE, Fore.LIGHTMAGENTA_EX]
-    result = ""
-    color_cycle = itertools.cycle(colors)
-    
-    for char in text:
-        result += next(color_cycle) + char
-    
-    return result
-
-# Function to change and save theme
-def change_theme():
-    colors = {
-        '1': Fore.RED,      # Red
-        '2': Fore.GREEN,    # Green
-        '3': Fore.YELLOW,   # Yellow
-        '4': Fore.BLUE,     # Blue
-        '5': Fore.MAGENTA,  # Magenta
-        '6': Fore.CYAN,     # Cyan
-        '7': Fore.WHITE     # White
-    }
-
-    clear_screen()
-    print("Choose a color:")
-    print("1. Red")
-    print("2. Green")
-    print("3. Yellow")
-    print("4. Blue")
-    print("5. Magenta")
-    print("6. Cyan")
-    print("7. White")
-    
-    choice = input("Enter the number corresponding to your choice: ")
-
-    if choice in colors:
-        selected_color = colors[choice]
-        save_theme(selected_color)
-        clear_screen()
-        return selected_color
-    else:
-        print("Invalid choice. Using default color.")
-        clear_screen()
-        return Fore.BLUE  # Default to blue
+# Function to load theme from JSON file
+def load_theme():
+    try:
+        with open('theme.json', 'r') as file:
+            theme = json.load(file)
+        return theme['color']
+    except FileNotFoundError:
+        return "blue_to_purple"  # Default to blue to purple gradient
 
 # Function to save theme to JSON file
 def save_theme(color):
@@ -94,48 +58,75 @@ def save_theme(color):
         json.dump(theme, file)
     print("Theme saved successfully!")
 
-# Function to load theme from JSON file
-def load_theme():
-    try:
-        with open('theme.json', 'r') as file:
-            theme = json.load(file)
-        return theme['color']
-    except FileNotFoundError:
-        return Fore.BLUE  # Default to blue
+# Function to change and save theme
+def change_theme():
+    colors = {
+        '1': "red_to_yellow",
+        '2': "green_to_blue",
+        '3': "yellow_to_red",
+        '4': "blue_to_purple",
+        '5': "cyan_to_green",
+        '6': "black_to_white"  # Updated to use valid color
+    }
+
+    clear_screen()
+    print("Choose a color theme:")
+    print("1. Red to Yellow")
+    print("2. Green to Blue")
+    print("3. Yellow to Red")
+    print("4. Blue to Purple")
+    print("5. Cyan to Green")
+    print("6. Black to White")
+    choice = input("Enter the number of your choice: ")
+
+    if choice in colors:
+        save_theme(colors[choice])
+    else:
+        print("Invalid choice. Defaulting to Blue to Purple gradient.")
+        save_theme("blue_to_purple")
+
+# Mapping of color themes to Colors attributes
+color_mappings = {
+    "red_to_yellow": Colors.red_to_yellow,
+    "green_to_blue": Colors.green_to_blue,
+    "yellow_to_red": Colors.yellow_to_red,
+    "blue_to_purple": Colors.blue_to_purple,
+    "cyan_to_green": Colors.cyan_to_green,
+    "black_to_white": Colors.black_to_white
+}
 
 # Function to display main menu
 def display_menu(current_color):
-    header = """
-██╗    ██╗██╗██╗  ██╗██╗██╗     ██╗     ██╗   ██╗███╗   ███╗
-████╗  ██║██║╚██╗██╔╝██║██║     ██║     ██║   ██║████╗ ████║                <made by Jack and Y2K> 
-██╔██╗ ██║██║ ╚███╔╝ ██║██║     ██║     ██║   ██║██╔████╔██║                theme changer «!» update «+»
-██║╚██╗██║██║ ██╔██╗ ██║██║     ██║     ██║   ██║██║╚██╔╝██║
-██║ ╚████║██║██╔╝ ██╗██║███████╗███████╗╚██████╔╝██║ ╚═╝ ██║
-╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝╚═╝╚══════╝╚══════╝ ╚═════╝ ╚═╝     ╚═╝ """
-    
-    menu = """
-┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-┃ «01» login «06» blank «11» blank «16» blank «21» blank           ┃
-┃ «02» info  «07» blank «12» blank «17» blank «22» blank           ┃ 
-┃ «03» nuker «08» blank «13» blank «18» blank «23» blank           ┃                         
-┃ «04» blank «09» blank «14» blank «19» blank «24» blank           ┃
-┃ «05» blank «10» blank «15» blank «20» blank «25» blank           ┃
-┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛"""
+    logo = Center.XCenter("""
+        ███╗   ██╗██╗██╗  ██╗██╗██╗     ██╗     ██╗   ██╗███╗   ███╗
+        ████╗  ██║██║╚██╗██╔╝██║██║     ██║     ██║   ██║████╗ ████║                <made by Jack and Y2K> 
+        ██╔██╗ ██║██║ ╚███╔╝ ██║██║     ██║     ██║   ██║██╔████╔██║                theme changer «!» update «+»
+        ██║╚██╗██║██║ ██╔██╗ ██║██║     ██║     ██║   ██║██║╚██╔╝██║
+        ██║ ╚████║██║██╔╝ ██╗██║███████╗███████╗╚██████╔╝██║ ╚═╝ ██║
+        ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝╚═╝╚══════╝╚══════╝ ╚═════╝ ╚═╝     ╚═╝
+    ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+    ┃ «01» login «06» blank «11» blank «16» blank «21» blank           ┃
+    ┃ «02» info  «07» blank «12» blank «17» blank «22» blank           ┃ 
+    ┃ «03» nuker «08» blank «13» blank «18» blank «23» blank           ┃                         
+    ┃ «04» blank «09» blank «14» blank «19» blank «24» blank           ┃
+    ┃ «05» blank «10» blank «15» blank «20» blank «25» blank           ┃
+    ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛""")
 
-    if current_color == 'rainbow':
-        print(rainbow_text(header))
-        print(rainbow_text(menu))
-    else:
-        print(current_color + header)
-        print(current_color + menu)
+    # Apply gradient color to logo
+    color_function = color_mappings.get(current_color, Colors.blue_to_purple)
+    colored_logo = Colorate.Vertical(color_function, logo)
+
+    clear_screen()  # Clear the screen before printing
+    print(colored_logo)
 
 # Main menu function
 def main_menu():
     current_color = load_theme()
 
     while True:
+        clear_screen()
         display_menu(current_color)
-        choice = input(current_color + "[?] Choice »")
+        choice = input(Fore.RESET + "[?] Choice » ")
 
         if choice == '1':
             open_login_py()
@@ -143,10 +134,11 @@ def main_menu():
             open_info_py()
         elif choice == '3':
             open_nuker_py()
-        elif choice == '!':
-            current_color = change_theme()
         elif choice == '+':
             open_up_py()
+        elif choice == '!':
+            change_theme()
+            current_color = load_theme()
         else:
             clear_screen()
             print("Invalid choice. Please enter a valid option.")
