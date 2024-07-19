@@ -135,7 +135,7 @@ def main_menu():
 
     while True:
         display_menu(current_color)
-        choice = input(current_color + "Enter your choice: ")
+        choice = input(current_color + "[?] Choice »")
 
         if choice == '1':
             open_login_py()
